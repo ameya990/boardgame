@@ -17,7 +17,6 @@ class Game extends React.Component {
 class Board extends React.Component {
 
     squareRevealed = [1,5,2,8,2,3,6,1,5,7,4,6,4,7,8,3];
-    pair = Array(2).fill(null);
     twinIndex = null;
     counter = 8;
 
@@ -25,7 +24,8 @@ class Board extends React.Component {
         super(props);
         this.state = {
             squareHidden: Array(16).fill(null),
-            isSecond: false
+            isSecond: false,
+            status: "Click on any square to begin the Game"
         }
     }
 
@@ -65,6 +65,17 @@ class Board extends React.Component {
                 else if(squares[i] === squares[this.twinIndex]) {
                     this.counter--;
                     // this is where you should add the function to check if the game is over or not
+                    if (this.counter > 0) {
+                        this.setState({
+                            status: "Game is in Progress."
+                        });
+                    }
+                    else if (this.counter === 0) {
+                        this.setState({
+                            status: "Game Over."
+                        });
+                    }
+
                     this.twinIndex = null;
                 }
             }
@@ -108,6 +119,9 @@ class Board extends React.Component {
                     {this.renderSquare(13)}
                     {this.renderSquare(14)}
                     {this.renderSquare(15)}
+                </div>
+                <div className="status">
+                    {this.state.status}
                 </div>
             </div>
         );
